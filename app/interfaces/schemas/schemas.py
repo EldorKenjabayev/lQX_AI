@@ -42,6 +42,37 @@ class UserLoginRequest(BaseModel):
         }
 
 
+class UserUpdateRequest(BaseModel):
+    """Foydalanuvchi ma'lumotlarini yangilash."""
+    business_type: str = Field(..., description="Biznes turi: savdo, oquv_markazi, ishlab_chiqarish")
+
+    class Config:
+        json_schema_extra = {
+            "example": {
+                "business_type": "savdo"
+            }
+        }
+
+
+class UserResponse(BaseModel):
+    """Foydalanuvchi ma'lumotlari."""
+    id: UUID
+    email: EmailStr
+    business_type: Optional[str] = None
+    auth_provider: str
+
+    class Config:
+        from_attributes = True
+        json_schema_extra = {
+            "example": {
+                "id": "123e4567-e89b-12d3-a456-426614174000",
+                "email": "user@example.com",
+                "business_type": "savdo",
+                "auth_provider": "google"
+            }
+        }
+
+
 class TokenResponse(BaseModel):
     """Token javobi."""
     access_token: str

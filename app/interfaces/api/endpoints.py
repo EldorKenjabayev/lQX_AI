@@ -17,6 +17,7 @@ from app.infrastructure.db.models import UserModel, TransactionModel
 from app.infrastructure.auth.security import hash_password, verify_password, create_access_token, decode_access_token
 from app.interfaces.schemas.schemas import (
     UserRegisterRequest, UserLoginRequest, TokenResponse,
+    UserUpdateRequest, UserResponse,
     TextUploadRequest, UploadResponse,
     ForecastRequest, ForecastResponse,
     TransactionResponse
@@ -197,6 +198,27 @@ async def google_callback(code: str, db: Session = Depends(get_db)):
     redirect_url = f"{frontend_url}/auth/callback?access_token={access_token}&user_id={user.id}"
     
     return RedirectResponse(url=redirect_url)
+
+
+@auth_router.get("/me", response_model=UserResponse)
+async def read_users_me(current_user: UserModel = Depends(get_current_user)):
+    """Joriy foydalanuvchi ma'lumotlarini olish."""
+    return current_user
+
+
+@auth_router.patch("/me", response_model=UserResponse)
+async def update_user_me(
+    request: UserUpdateRequest,
+    current_user: UserModel = Depends(get_current_user),
+    db: Session = Depends(get_db)
+):
+    """Joriy foydalanuvchi ma'lumotlarini yangilash (masalan, business_type)."""
+    if request.business_type:
+        current_user.business_type = request.business_type
+        db.commit()
+        db.refresh(current_user)
+    
+    return current_user
 
 
 # ==================== Data Endpoints ====================
