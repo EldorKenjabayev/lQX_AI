@@ -1,0 +1,277 @@
+date,amount,description,category
+2026-01-01,1093507.2886912925,Tushum (Naqd),Daromad
+2026-01-01,1640260.9330369388,Tushum (Terminal/Click),Daromad
+2026-01-01,-1213516.2600515261,Go'sht mahsulotlari xaridi,Bozorlik
+2026-01-01,-404505.4200171754,Sabzavot va boshqa masalliqlar,Bozorlik
+2026-01-01,-300000.0,Xodimlar kunlik ish haqi,Xarajat
+2026-01-02,1609431.2879235887,Tushum (Naqd),Daromad
+2026-01-02,2414146.9318853826,Tushum (Terminal/Click),Daromad
+2026-01-02,-655322.7664362513,Sabzavot va boshqa masalliqlar,Bozorlik
+2026-01-02,-300000.0,Xodimlar kunlik ish haqi,Xarajat
+2026-01-03,1945168.1803764421,Tushum (Naqd),Daromad
+2026-01-03,2917752.270564663,Tushum (Terminal/Click),Daromad
+2026-01-03,-2556185.40453448,Go'sht mahsulotlari xaridi,Bozorlik
+2026-01-03,-852061.8015114934,Sabzavot va boshqa masalliqlar,Bozorlik
+2026-01-03,-300000.0,Xodimlar kunlik ish haqi,Xarajat
+2026-01-04,1704211.905906228,Tushum (Naqd),Daromad
+2026-01-04,2556317.858859342,Tushum (Terminal/Click),Daromad
+2026-01-04,-642878.6763995454,Sabzavot va boshqa masalliqlar,Bozorlik
+2026-01-04,-300000.0,Xodimlar kunlik ish haqi,Xarajat
+2026-01-05,1111471.8378901887,Tushum (Naqd),Daromad
+2026-01-05,1667207.7568352828,Tushum (Terminal/Click),Daromad
+2026-01-05,-1366973.9157843862,Go'sht mahsulotlari xaridi,Bozorlik
+2026-01-05,-455657.9719281288,Sabzavot va boshqa masalliqlar,Bozorlik
+2026-01-05,-300000.0,Xodimlar kunlik ish haqi,Xarajat
+2026-01-05,-13000000.0,Restoran Ijarasi,Xarajat
+2026-01-06,846469.5094144163,Tushum (Naqd),Daromad
+2026-01-06,1269704.2641216242,Tushum (Terminal/Click),Daromad
+2026-01-06,-308537.34143946477,Sabzavot va boshqa masalliqlar,Bozorlik
+2026-01-06,-300000.0,Xodimlar kunlik ish haqi,Xarajat
+2026-01-07,878237.0369586844,Tushum (Naqd),Daromad
+2026-01-07,1317355.5554380266,Tushum (Terminal/Click),Daromad
+2026-01-07,-1009725.2532634984,Go'sht mahsulotlari xaridi,Bozorlik
+2026-01-07,-336575.0844211662,Sabzavot va boshqa masalliqlar,Bozorlik
+2026-01-07,-300000.0,Xodimlar kunlik ish haqi,Xarajat
+2026-01-08,941814.5565512092,Tushum (Naqd),Daromad
+2026-01-08,1412721.8348268135,Tushum (Terminal/Click),Daromad
+2026-01-08,-395106.45164089376,Sabzavot va boshqa masalliqlar,Bozorlik
+2026-01-08,-300000.0,Xodimlar kunlik ish haqi,Xarajat
+2026-01-09,1711006.6869251088,Tushum (Naqd),Daromad
+2026-01-09,2566510.030387663,Tushum (Terminal/Click),Daromad
+2026-01-09,-1820608.3381652369,Go'sht mahsulotlari xaridi,Bozorlik
+2026-01-09,-606869.446055079,Sabzavot va boshqa masalliqlar,Bozorlik
+2026-01-09,-300000.0,Xodimlar kunlik ish haqi,Xarajat
+2026-01-10,1720311.4896497128,Tushum (Naqd),Daromad
+2026-01-10,2580467.234474569,Tushum (Terminal/Click),Daromad
+2026-01-10,-616032.8118601461,Sabzavot va boshqa masalliqlar,Bozorlik
+2026-01-10,-300000.0,Xodimlar kunlik ish haqi,Xarajat
+2026-01-11,1702423.1760929618,Tushum (Naqd),Daromad
+2026-01-11,2553634.7641394427,Tushum (Terminal/Click),Daromad
+2026-01-11,-2228099.6432316434,Go'sht mahsulotlari xaridi,Bozorlik
+2026-01-11,-742699.8810772145,Sabzavot va boshqa masalliqlar,Bozorlik
+2026-01-11,-300000.0,Xodimlar kunlik ish haqi,Xarajat
+2026-01-12,1182342.4805672017,Tushum (Naqd),Daromad
+2026-01-12,1773513.7208508023,Tushum (Terminal/Click),Daromad
+2026-01-12,-519579.7265627904,Sabzavot va boshqa masalliqlar,Bozorlik
+2026-01-12,-300000.0,Xodimlar kunlik ish haqi,Xarajat
+2026-01-13,1031697.32233929,Tushum (Naqd),Daromad
+2026-01-13,1547545.983508935,Tushum (Terminal/Click),Daromad
+2026-01-13,-1106297.5886597228,Go'sht mahsulotlari xaridi,Bozorlik
+2026-01-13,-368765.8628865743,Sabzavot va boshqa masalliqlar,Bozorlik
+2026-01-13,-300000.0,Xodimlar kunlik ish haqi,Xarajat
+2026-01-14,817044.5229433186,Tushum (Naqd),Daromad
+2026-01-14,1225566.7844149778,Tushum (Terminal/Click),Daromad
+2026-01-14,-326796.1970535642,Sabzavot va boshqa masalliqlar,Bozorlik
+2026-01-14,-300000.0,Xodimlar kunlik ish haqi,Xarajat
+2026-01-15,925292.3260965219,Tushum (Naqd),Daromad
+2026-01-15,1387938.4891447828,Tushum (Terminal/Click),Daromad
+2026-01-15,-1068466.867719872,Go'sht mahsulotlari xaridi,Bozorlik
+2026-01-15,-356155.6225732907,Sabzavot va boshqa masalliqlar,Bozorlik
+2026-01-15,-300000.0,Xodimlar kunlik ish haqi,Xarajat
+2026-01-15,-4000000.0,Soliq (Aylanmadan),Xarajat
+2026-01-16,1999375.7947012899,Tushum (Naqd),Daromad
+2026-01-16,2999063.6920519345,Tushum (Terminal/Click),Daromad
+2026-01-16,-755070.7154764015,Sabzavot va boshqa masalliqlar,Bozorlik
+2026-01-16,-300000.0,Xodimlar kunlik ish haqi,Xarajat
+2026-01-17,1794204.2256260575,Tushum (Naqd),Daromad
+2026-01-17,2691306.338439086,Tushum (Terminal/Click),Daromad
+2026-01-17,-2220869.1461462304,Go'sht mahsulotlari xaridi,Bozorlik
+2026-01-17,-740289.7153820769,Sabzavot va boshqa masalliqlar,Bozorlik
+2026-01-17,-300000.0,Xodimlar kunlik ish haqi,Xarajat
+2026-01-18,1402920.482667388,Tushum (Naqd),Daromad
+2026-01-18,2104380.7240010817,Tushum (Terminal/Click),Daromad
+2026-01-18,-493635.014418956,Sabzavot va boshqa masalliqlar,Bozorlik
+2026-01-18,-300000.0,Xodimlar kunlik ish haqi,Xarajat
+2026-01-19,819948.7123896633,Tushum (Naqd),Daromad
+2026-01-19,1229923.0685844948,Tushum (Terminal/Click),Daromad
+2026-01-19,-1091048.1544531167,Go'sht mahsulotlari xaridi,Bozorlik
+2026-01-19,-363682.7181510389,Sabzavot va boshqa masalliqlar,Bozorlik
+2026-01-19,-300000.0,Xodimlar kunlik ish haqi,Xarajat
+2026-01-20,926796.5647464304,Tushum (Naqd),Daromad
+2026-01-20,1390194.8471196454,Tushum (Terminal/Click),Daromad
+2026-01-20,-385826.10229862673,Sabzavot va boshqa masalliqlar,Bozorlik
+2026-01-20,-300000.0,Xodimlar kunlik ish haqi,Xarajat
+2026-01-20,-1500000.0,Elektr va Gaz,Kommunal
+2026-01-21,904589.5855151445,Tushum (Naqd),Daromad
+2026-01-21,1356884.3782727167,Tushum (Terminal/Click),Daromad
+2026-01-21,-1045429.704044953,Go'sht mahsulotlari xaridi,Bozorlik
+2026-01-21,-348476.56801498437,Sabzavot va boshqa masalliqlar,Bozorlik
+2026-01-21,-300000.0,Xodimlar kunlik ish haqi,Xarajat
+2026-01-22,1163327.3564195726,Tushum (Naqd),Daromad
+2026-01-22,1744991.034629359,Tushum (Terminal/Click),Daromad
+2026-01-22,-493366.1230132786,Sabzavot va boshqa masalliqlar,Bozorlik
+2026-01-22,-300000.0,Xodimlar kunlik ish haqi,Xarajat
+2026-01-23,1501050.1581411408,Tushum (Naqd),Daromad
+2026-01-23,2251575.237211711,Tushum (Terminal/Click),Daromad
+2026-01-23,-1811899.7739951275,Go'sht mahsulotlari xaridi,Bozorlik
+2026-01-23,-603966.5913317092,Sabzavot va boshqa masalliqlar,Bozorlik
+2026-01-23,-300000.0,Xodimlar kunlik ish haqi,Xarajat
+2026-01-24,1623379.2912910886,Tushum (Naqd),Daromad
+2026-01-24,2435068.9369366327,Tushum (Terminal/Click),Daromad
+2026-01-24,-589173.0734501866,Sabzavot va boshqa masalliqlar,Bozorlik
+2026-01-24,-300000.0,Xodimlar kunlik ish haqi,Xarajat
+2026-01-25,1615691.0195768634,Tushum (Naqd),Daromad
+2026-01-25,2423536.5293652946,Tushum (Terminal/Click),Daromad
+2026-01-25,-2063168.8282055375,Go'sht mahsulotlari xaridi,Bozorlik
+2026-01-25,-687722.9427351793,Sabzavot va boshqa masalliqlar,Bozorlik
+2026-01-25,-300000.0,Xodimlar kunlik ish haqi,Xarajat
+2026-01-26,1172820.6679535166,Tushum (Naqd),Daromad
+2026-01-26,1759231.0019302748,Tushum (Terminal/Click),Daromad
+2026-01-26,-418099.42926755047,Sabzavot va boshqa masalliqlar,Bozorlik
+2026-01-26,-300000.0,Xodimlar kunlik ish haqi,Xarajat
+2026-01-27,1141376.4475390334,Tushum (Naqd),Daromad
+2026-01-27,1712064.67130855,Tushum (Terminal/Click),Daromad
+2026-01-27,-1403359.38585355,Go'sht mahsulotlari xaridi,Bozorlik
+2026-01-27,-467786.4619511834,Sabzavot va boshqa masalliqlar,Bozorlik
+2026-01-27,-300000.0,Xodimlar kunlik ish haqi,Xarajat
+2026-01-28,919688.1881907309,Tushum (Naqd),Daromad
+2026-01-28,1379532.2822860961,Tushum (Terminal/Click),Daromad
+2026-01-28,-346191.527988008,Sabzavot va boshqa masalliqlar,Bozorlik
+2026-01-28,-300000.0,Xodimlar kunlik ish haqi,Xarajat
+2026-01-29,825772.2154963723,Tushum (Naqd),Daromad
+2026-01-29,1238658.3232445584,Tushum (Terminal/Click),Daromad
+2026-01-29,-1100885.6859824057,Go'sht mahsulotlari xaridi,Bozorlik
+2026-01-29,-366961.89532746864,Sabzavot va boshqa masalliqlar,Bozorlik
+2026-01-29,-300000.0,Xodimlar kunlik ish haqi,Xarajat
+2026-01-30,1865588.0281919139,Tushum (Naqd),Daromad
+2026-01-30,2798382.0422878703,Tushum (Terminal/Click),Daromad
+2026-01-30,-744650.4645503082,Sabzavot va boshqa masalliqlar,Bozorlik
+2026-01-30,-300000.0,Xodimlar kunlik ish haqi,Xarajat
+2026-01-31,1965946.8214960308,Tushum (Naqd),Daromad
+2026-01-31,2948920.232244046,Tushum (Terminal/Click),Daromad
+2026-01-31,-2493949.8194022127,Go'sht mahsulotlari xaridi,Bozorlik
+2026-01-31,-831316.6064674044,Sabzavot va boshqa masalliqlar,Bozorlik
+2026-01-31,-300000.0,Xodimlar kunlik ish haqi,Xarajat
+2026-02-01,1881733.6519495558,Tushum (Naqd),Daromad
+2026-02-01,2822600.4779243334,Tushum (Terminal/Click),Daromad
+2026-02-01,-841486.0808594651,Sabzavot va boshqa masalliqlar,Bozorlik
+2026-02-01,-300000.0,Xodimlar kunlik ish haqi,Xarajat
+2026-02-02,1102002.561386778,Tushum (Naqd),Daromad
+2026-02-02,1653003.842080167,Tushum (Terminal/Click),Daromad
+2026-02-02,-1483568.2688726042,Go'sht mahsulotlari xaridi,Bozorlik
+2026-02-02,-494522.75629086816,Sabzavot va boshqa masalliqlar,Bozorlik
+2026-02-02,-300000.0,Xodimlar kunlik ish haqi,Xarajat
+2026-02-03,836968.6862427677,Tushum (Naqd),Daromad
+2026-02-03,1255453.0293641514,Tushum (Terminal/Click),Daromad
+2026-02-03,-339406.5154013034,Sabzavot va boshqa masalliqlar,Bozorlik
+2026-02-03,-300000.0,Xodimlar kunlik ish haqi,Xarajat
+2026-02-04,1006237.6509067845,Tushum (Naqd),Daromad
+2026-02-04,1509356.4763601767,Tushum (Terminal/Click),Daromad
+2026-02-04,-1319586.2962594712,Go'sht mahsulotlari xaridi,Bozorlik
+2026-02-04,-439862.0987531571,Sabzavot va boshqa masalliqlar,Bozorlik
+2026-02-04,-300000.0,Xodimlar kunlik ish haqi,Xarajat
+2026-02-05,1132162.4163230069,Tushum (Naqd),Daromad
+2026-02-05,1698243.6244845104,Tushum (Terminal/Click),Daromad
+2026-02-05,-469332.22204935923,Sabzavot va boshqa masalliqlar,Bozorlik
+2026-02-05,-300000.0,Xodimlar kunlik ish haqi,Xarajat
+2026-02-05,-13000000.0,Restoran Ijarasi,Xarajat
+2026-02-06,1623599.034658623,Tushum (Naqd),Daromad
+2026-02-06,2435398.5519879344,Tushum (Terminal/Click),Daromad
+2026-02-06,-1874893.9083509578,Go'sht mahsulotlari xaridi,Bozorlik
+2026-02-06,-624964.636116986,Sabzavot va boshqa masalliqlar,Bozorlik
+2026-02-06,-300000.0,Xodimlar kunlik ish haqi,Xarajat
+2026-02-07,1737284.275408361,Tushum (Naqd),Daromad
+2026-02-07,2605926.4131125417,Tushum (Terminal/Click),Daromad
+2026-02-07,-614254.3878605277,Sabzavot va boshqa masalliqlar,Bozorlik
+2026-02-07,-300000.0,Xodimlar kunlik ish haqi,Xarajat
+2026-02-08,1425387.6673344325,Tushum (Naqd),Daromad
+2026-02-08,2138081.5010016486,Tushum (Terminal/Click),Daromad
+2026-02-08,-1595842.5552270748,Go'sht mahsulotlari xaridi,Bozorlik
+2026-02-08,-531947.5184090249,Sabzavot va boshqa masalliqlar,Bozorlik
+2026-02-08,-300000.0,Xodimlar kunlik ish haqi,Xarajat
+2026-02-09,1175544.1002106161,Tushum (Naqd),Daromad
+2026-02-09,1763316.1503159238,Tushum (Terminal/Click),Daromad
+2026-02-09,-517759.3244333465,Sabzavot va boshqa masalliqlar,Bozorlik
+2026-02-09,-300000.0,Xodimlar kunlik ish haqi,Xarajat
+2026-02-10,963445.5697822291,Tushum (Naqd),Daromad
+2026-02-10,1445168.3546733437,Tushum (Terminal/Click),Daromad
+2026-02-10,-1150328.4303612325,Go'sht mahsulotlari xaridi,Bozorlik
+2026-02-10,-383442.81012041087,Sabzavot va boshqa masalliqlar,Bozorlik
+2026-02-10,-300000.0,Xodimlar kunlik ish haqi,Xarajat
+2026-02-11,878736.321710119,Tushum (Naqd),Daromad
+2026-02-11,1318104.4825651785,Tushum (Terminal/Click),Daromad
+2026-02-11,-359233.44593768666,Sabzavot va boshqa masalliqlar,Bozorlik
+2026-02-11,-300000.0,Xodimlar kunlik ish haqi,Xarajat
+2026-02-12,1000436.1035222039,Tushum (Naqd),Daromad
+2026-02-12,1500654.1552833058,Tushum (Terminal/Click),Daromad
+2026-02-12,-1157051.181723446,Go'sht mahsulotlari xaridi,Bozorlik
+2026-02-12,-385683.7272411487,Sabzavot va boshqa masalliqlar,Bozorlik
+2026-02-12,-300000.0,Xodimlar kunlik ish haqi,Xarajat
+2026-02-13,1715165.318866025,Tushum (Naqd),Daromad
+2026-02-13,2572747.978299037,Tushum (Terminal/Click),Daromad
+2026-02-13,-715690.157569145,Sabzavot va boshqa masalliqlar,Bozorlik
+2026-02-13,-300000.0,Xodimlar kunlik ish haqi,Xarajat
+2026-02-14,1635550.1040546468,Tushum (Naqd),Daromad
+2026-02-14,2453325.15608197,Tushum (Terminal/Click),Daromad
+2026-02-14,-1897399.1021094027,Go'sht mahsulotlari xaridi,Bozorlik
+2026-02-14,-632466.3673698009,Sabzavot va boshqa masalliqlar,Bozorlik
+2026-02-14,-300000.0,Xodimlar kunlik ish haqi,Xarajat
+2026-02-15,1812989.5858288666,Tushum (Naqd),Daromad
+2026-02-15,2719484.3787432997,Tushum (Terminal/Click),Daromad
+2026-02-15,-734900.8874037475,Sabzavot va boshqa masalliqlar,Bozorlik
+2026-02-15,-300000.0,Xodimlar kunlik ish haqi,Xarajat
+2026-02-15,-4000000.0,Soliq (Aylanmadan),Xarajat
+2026-02-16,1019200.1575649398,Tushum (Naqd),Daromad
+2026-02-16,1528800.2363474097,Tushum (Terminal/Click),Daromad
+2026-02-16,-1236566.094165939,Go'sht mahsulotlari xaridi,Bozorlik
+2026-02-16,-412188.698055313,Sabzavot va boshqa masalliqlar,Bozorlik
+2026-02-16,-300000.0,Xodimlar kunlik ish haqi,Xarajat
+2026-02-17,1016257.1649286114,Tushum (Naqd),Daromad
+2026-02-17,1524385.747392917,Tushum (Terminal/Click),Daromad
+2026-02-17,-363486.4843392784,Sabzavot va boshqa masalliqlar,Bozorlik
+2026-02-17,-300000.0,Xodimlar kunlik ish haqi,Xarajat
+2026-02-18,1054129.6345175132,Tushum (Naqd),Daromad
+2026-02-18,1581194.4517762698,Tushum (Terminal/Click),Daromad
+2026-02-18,-1387353.846584321,Go'sht mahsulotlari xaridi,Bozorlik
+2026-02-18,-462451.28219477367,Sabzavot va boshqa masalliqlar,Bozorlik
+2026-02-18,-300000.0,Xodimlar kunlik ish haqi,Xarajat
+2026-02-19,881797.5947434399,Tushum (Naqd),Daromad
+2026-02-19,1322696.39211516,Tushum (Terminal/Click),Daromad
+2026-02-19,-361667.1528661178,Sabzavot va boshqa masalliqlar,Bozorlik
+2026-02-19,-300000.0,Xodimlar kunlik ish haqi,Xarajat
+2026-02-20,1824503.1478541319,Tushum (Naqd),Daromad
+2026-02-20,2736754.7217811975,Tushum (Terminal/Click),Daromad
+2026-02-20,-2385557.6465259898,Go'sht mahsulotlari xaridi,Bozorlik
+2026-02-20,-795185.8821753301,Sabzavot va boshqa masalliqlar,Bozorlik
+2026-02-20,-300000.0,Xodimlar kunlik ish haqi,Xarajat
+2026-02-20,-1500000.0,Elektr va Gaz,Kommunal
+2026-02-21,1470776.6801510674,Tushum (Naqd),Daromad
+2026-02-21,2206165.020226601,Tushum (Terminal/Click),Daromad
+2026-02-21,-621238.9882340904,Sabzavot va boshqa masalliqlar,Bozorlik
+2026-02-21,-300000.0,Xodimlar kunlik ish haqi,Xarajat
+2026-02-22,1657982.6490613418,Tushum (Naqd),Daromad
+2026-02-22,2486973.9735920127,Tushum (Terminal/Click),Daromad
+2026-02-22,-1945080.7201675626,Go'sht mahsulotlari xaridi,Bozorlik
+2026-02-22,-648360.2400558543,Sabzavot va boshqa masalliqlar,Bozorlik
+2026-02-22,-300000.0,Xodimlar kunlik ish haqi,Xarajat
+2026-02-23,906387.0074425273,Tushum (Naqd),Daromad
+2026-02-23,1359580.511163791,Tushum (Terminal/Click),Daromad
+2026-02-23,-361424.75657943776,Sabzavot va boshqa masalliqlar,Bozorlik
+2026-02-23,-300000.0,Xodimlar kunlik ish haqi,Xarajat
+2026-02-24,875229.482555526,Tushum (Naqd),Daromad
+2026-02-24,1312844.2238332888,Tushum (Terminal/Click),Daromad
+2026-02-24,-1033589.9047477215,Go'sht mahsulotlari xaridi,Bozorlik
+2026-02-24,-344529.96824924054,Sabzavot va boshqa masalliqlar,Bozorlik
+2026-02-24,-300000.0,Xodimlar kunlik ish haqi,Xarajat
+2026-02-25,1096219.158746585,Tushum (Naqd),Daromad
+2026-02-25,1644328.7381198772,Tushum (Terminal/Click),Daromad
+2026-02-25,-418689.1688501657,Sabzavot va boshqa masalliqlar,Bozorlik
+2026-02-25,-300000.0,Xodimlar kunlik ish haqi,Xarajat
+2026-02-26,819272.4423902098,Tushum (Naqd),Daromad
+2026-02-26,1228908.6635853145,Tushum (Terminal/Click),Daromad
+2026-02-26,-990064.8427519816,Go'sht mahsulotlari xaridi,Bozorlik
+2026-02-26,-330021.6142506606,Sabzavot va boshqa masalliqlar,Bozorlik
+2026-02-26,-300000.0,Xodimlar kunlik ish haqi,Xarajat
+2026-02-27,1849716.5140095158,Tushum (Naqd),Daromad
+2026-02-27,2774574.771014273,Tushum (Terminal/Click),Daromad
+2026-02-27,-784742.5415117247,Sabzavot va boshqa masalliqlar,Bozorlik
+2026-02-27,-300000.0,Xodimlar kunlik ish haqi,Xarajat
+2026-02-28,1458243.5789772524,Tushum (Naqd),Daromad
+2026-02-28,2187365.3684658785,Tushum (Terminal/Click),Daromad
+2026-02-28,-1934784.6500543787,Go'sht mahsulotlari xaridi,Bozorlik
+2026-02-28,-644928.216684793,Sabzavot va boshqa masalliqlar,Bozorlik
+2026-02-28,-300000.0,Xodimlar kunlik ish haqi,Xarajat
+2026-03-01,1992413.6356936963,Tushum (Naqd),Daromad
+2026-03-01,2988620.453540544,Tushum (Terminal/Click),Daromad
+2026-03-01,-861503.8561055334,Sabzavot va boshqa masalliqlar,Bozorlik
+2026-03-01,-300000.0,Xodimlar kunlik ish haqi,Xarajat

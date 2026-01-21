@@ -1,0 +1,60 @@
+
+version: '3.8'
+
+services:
+  # === Database ===
+  db:
+    image: postgres:15-alpine
+    container_name: lqxai_db
+    restart: always
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgrespassword
+      POSTGRES_DB: lqxai_prod
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    networks:
+      - lqxai_network
+
+  # === Backend ===
+  backend:
+    build: .
+    container_name: lqxai_backend
+    restart: always
+    depends_on:
+      - db
+    environment:
+      # Database connection (Service name 'db' ishlatiladi)
+      - DATABASE_URL=postgresql://postgres:postgrespassword@db:5432/lqxai_prod
+      # Env file override
+      - SECRET_KEY=${SECRET_KEY}
+      - OPENAI_API_KEY=${OPENAI_API_KEY}
+      - GOOGLE_CLIENT_ID=${GOOGLE_CLIENT_ID}
+      - GOOGLE_CLIENT_SECRET=${GOOGLE_CLIENT_SECRET}
+      - GOOGLE_REDIRECT_URI=https://lqx.centraliatours.com/auth/google/callback
+      - FRONTEND_URL=${FRONTEND_URL}
+    networks:
+      - lqxai_network
+
+  # === Nginx (Reverse Proxy) ===
+  nginx:
+    image: nginx:alpine
+    container_name: lqxai_nginx
+    restart: always
+    ports:
+      # Tashqi dunyoga 80 portni ochamiz (yoki 8000 agar hostda band bo'lsa)
+      # User hostda boshqa loyihalar borligini aytgani uchun, 8001:80 qilsak xavfsizroq
+      - "8001:80"
+    volumes:
+      - ./nginx:/etc/nginx/conf.d:ro
+    depends_on:
+      - backend
+    networks:
+      - lqxai_network
+
+volumes:
+  postgres_data:
+
+networks:
+  lqxai_network:
+    driver: bridge

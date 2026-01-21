@@ -1,0 +1,128 @@
+date,amount,description,category
+2026-01-01,500000.0,O'quv kursi to'lovi (Sardor 100),Daromad
+2026-01-01,500000.0,O'quv kursi to'lovi (Sardor 94),Daromad
+2026-01-01,500000.0,O'quv kursi to'lovi (Sardor 75),Daromad
+2026-01-01,500000.0,O'quv kursi to'lovi (Sardor 24),Daromad
+2026-01-01,500000.0,O'quv kursi to'lovi (Sardor 73),Daromad
+2026-01-01,500000.0,O'quv kursi to'lovi (Sardor 66),Daromad
+2026-01-01,-300000.0,Internet (Optika),Aloqa
+2026-01-02,500000.0,O'quv kursi to'lovi (Sardor 76),Daromad
+2026-01-02,500000.0,O'quv kursi to'lovi (Sardor 57),Daromad
+2026-01-02,500000.0,O'quv kursi to'lovi (Sardor 24),Daromad
+2026-01-02,-115214.0,"Ofis xarajatlari (Suv, qog'oz, marker)",Xarajat
+2026-01-03,500000.0,O'quv kursi to'lovi (Sardor 54),Daromad
+2026-01-03,500000.0,O'quv kursi to'lovi (Sardor 30),Daromad
+2026-01-03,500000.0,O'quv kursi to'lovi (Sardor 9),Daromad
+2026-01-03,500000.0,O'quv kursi to'lovi (Sardor 25),Daromad
+2026-01-03,500000.0,O'quv kursi to'lovi (Sardor 4),Daromad
+2026-01-03,500000.0,O'quv kursi to'lovi (Sardor 81),Daromad
+2026-01-04,500000.0,O'quv kursi to'lovi (Sardor 77),Daromad
+2026-01-04,500000.0,O'quv kursi to'lovi (Sardor 46),Daromad
+2026-01-04,500000.0,O'quv kursi to'lovi (Sardor 76),Daromad
+2026-01-05,500000.0,O'quv kursi to'lovi (Sardor 54),Daromad
+2026-01-05,500000.0,O'quv kursi to'lovi (Sardor 78),Daromad
+2026-01-05,500000.0,O'quv kursi to'lovi (Sardor 23),Daromad
+2026-01-05,500000.0,O'quv kursi to'lovi (Sardor 60),Daromad
+2026-01-05,-6500000.0,Ofis Ijarasi (Rent),Xarajat
+2026-01-06,500000.0,O'quv kursi to'lovi (Sardor 48),Daromad
+2026-01-06,500000.0,O'quv kursi to'lovi (Sardor 100),Daromad
+2026-01-06,500000.0,O'quv kursi to'lovi (Sardor 8),Daromad
+2026-01-06,500000.0,O'quv kursi to'lovi (Sardor 48),Daromad
+2026-01-07,500000.0,O'quv kursi to'lovi (Sardor 62),Daromad
+2026-01-07,500000.0,O'quv kursi to'lovi (Sardor 56),Daromad
+2026-01-07,500000.0,O'quv kursi to'lovi (Sardor 75),Daromad
+2026-01-07,500000.0,O'quv kursi to'lovi (Sardor 50),Daromad
+2026-01-08,500000.0,O'quv kursi to'lovi (Sardor 51),Daromad
+2026-01-08,500000.0,O'quv kursi to'lovi (Sardor 39),Daromad
+2026-01-08,500000.0,O'quv kursi to'lovi (Sardor 62),Daromad
+2026-01-08,500000.0,O'quv kursi to'lovi (Sardor 36),Daromad
+2026-01-08,500000.0,O'quv kursi to'lovi (Sardor 94),Daromad
+2026-01-08,-114430.0,"Ofis xarajatlari (Suv, qog'oz, marker)",Xarajat
+2026-01-09,500000.0,O'quv kursi to'lovi (Sardor 57),Daromad
+2026-01-09,500000.0,O'quv kursi to'lovi (Sardor 16),Daromad
+2026-01-09,500000.0,O'quv kursi to'lovi (Sardor 70),Daromad
+2026-01-09,500000.0,O'quv kursi to'lovi (Sardor 61),Daromad
+2026-01-09,500000.0,O'quv kursi to'lovi (Sardor 54),Daromad
+2026-01-10,500000.0,O'quv kursi to'lovi (Sardor 43),Daromad
+2026-01-10,500000.0,O'quv kursi to'lovi (Sardor 21),Daromad
+2026-01-10,500000.0,O'quv kursi to'lovi (Sardor 24),Daromad
+2026-01-10,500000.0,O'quv kursi to'lovi (Sardor 18),Daromad
+2026-01-10,500000.0,O'quv kursi to'lovi (Sardor 98),Daromad
+2026-01-10,-8000000.0,O'qituvchi oyligi,Xarajat
+2026-01-13,500000.0,O'quv kursi to'lovi (kechikkan),Daromad
+2026-01-14,-126498.0,"Ofis xarajatlari (Suv, qog'oz, marker)",Xarajat
+2026-01-15,-482465.0,Elektr energiyasi,Kommunal
+2026-01-15,-78971.0,Suv (Water),Kommunal
+2026-01-15,-310170.0,Isitish (Gaz/Otoplenie),Kommunal
+2026-01-16,500000.0,O'quv kursi to'lovi (kechikkan),Daromad
+2026-01-16,-59611.0,"Ofis xarajatlari (Suv, qog'oz, marker)",Xarajat
+2026-01-19,-122826.0,"Ofis xarajatlari (Suv, qog'oz, marker)",Xarajat
+2026-01-20,-77378.0,"Ofis xarajatlari (Suv, qog'oz, marker)",Xarajat
+2026-01-22,500000.0,O'quv kursi to'lovi (kechikkan),Daromad
+2026-01-22,-57373.0,"Ofis xarajatlari (Suv, qog'oz, marker)",Xarajat
+2026-01-23,-141632.0,"Ofis xarajatlari (Suv, qog'oz, marker)",Xarajat
+2026-01-28,-85483.0,"Ofis xarajatlari (Suv, qog'oz, marker)",Xarajat
+2026-01-29,-137550.0,"Ofis xarajatlari (Suv, qog'oz, marker)",Xarajat
+2026-01-30,-58940.0,"Ofis xarajatlari (Suv, qog'oz, marker)",Xarajat
+2026-02-01,500000.0,O'quv kursi to'lovi (Sardor 96),Daromad
+2026-02-01,500000.0,O'quv kursi to'lovi (Sardor 7),Daromad
+2026-02-01,500000.0,O'quv kursi to'lovi (Sardor 22),Daromad
+2026-02-01,500000.0,O'quv kursi to'lovi (Sardor 66),Daromad
+2026-02-01,500000.0,O'quv kursi to'lovi (Sardor 42),Daromad
+2026-02-01,-300000.0,Internet (Optika),Aloqa
+2026-02-02,500000.0,O'quv kursi to'lovi (Sardor 80),Daromad
+2026-02-02,500000.0,O'quv kursi to'lovi (Sardor 79),Daromad
+2026-02-02,500000.0,O'quv kursi to'lovi (Sardor 35),Daromad
+2026-02-02,500000.0,O'quv kursi to'lovi (Sardor 34),Daromad
+2026-02-02,500000.0,O'quv kursi to'lovi (Sardor 78),Daromad
+2026-02-02,-74432.0,"Ofis xarajatlari (Suv, qog'oz, marker)",Xarajat
+2026-02-03,500000.0,O'quv kursi to'lovi (Sardor 39),Daromad
+2026-02-03,500000.0,O'quv kursi to'lovi (Sardor 23),Daromad
+2026-02-03,500000.0,O'quv kursi to'lovi (Sardor 61),Daromad
+2026-02-03,500000.0,O'quv kursi to'lovi (Sardor 89),Daromad
+2026-02-03,500000.0,O'quv kursi to'lovi (Sardor 13),Daromad
+2026-02-03,500000.0,O'quv kursi to'lovi (Sardor 93),Daromad
+2026-02-04,500000.0,O'quv kursi to'lovi (Sardor 46),Daromad
+2026-02-04,500000.0,O'quv kursi to'lovi (Sardor 47),Daromad
+2026-02-04,500000.0,O'quv kursi to'lovi (Sardor 20),Daromad
+2026-02-04,500000.0,O'quv kursi to'lovi (Sardor 21),Daromad
+2026-02-04,500000.0,O'quv kursi to'lovi (Sardor 15),Daromad
+2026-02-05,500000.0,O'quv kursi to'lovi (Sardor 91),Daromad
+2026-02-05,500000.0,O'quv kursi to'lovi (Sardor 79),Daromad
+2026-02-05,500000.0,O'quv kursi to'lovi (Sardor 36),Daromad
+2026-02-05,-6500000.0,Ofis Ijarasi (Rent),Xarajat
+2026-02-05,-82194.0,"Ofis xarajatlari (Suv, qog'oz, marker)",Xarajat
+2026-02-06,500000.0,O'quv kursi to'lovi (Sardor 58),Daromad
+2026-02-06,500000.0,O'quv kursi to'lovi (Sardor 54),Daromad
+2026-02-06,500000.0,O'quv kursi to'lovi (Sardor 59),Daromad
+2026-02-07,500000.0,O'quv kursi to'lovi (Sardor 4),Daromad
+2026-02-07,500000.0,O'quv kursi to'lovi (Sardor 2),Daromad
+2026-02-07,500000.0,O'quv kursi to'lovi (Sardor 20),Daromad
+2026-02-07,500000.0,O'quv kursi to'lovi (Sardor 30),Daromad
+2026-02-08,500000.0,O'quv kursi to'lovi (Sardor 97),Daromad
+2026-02-08,500000.0,O'quv kursi to'lovi (Sardor 41),Daromad
+2026-02-09,500000.0,O'quv kursi to'lovi (Sardor 99),Daromad
+2026-02-09,500000.0,O'quv kursi to'lovi (Sardor 31),Daromad
+2026-02-09,500000.0,O'quv kursi to'lovi (Sardor 77),Daromad
+2026-02-09,500000.0,O'quv kursi to'lovi (Sardor 12),Daromad
+2026-02-09,500000.0,O'quv kursi to'lovi (Sardor 43),Daromad
+2026-02-10,500000.0,O'quv kursi to'lovi (Sardor 3),Daromad
+2026-02-10,500000.0,O'quv kursi to'lovi (Sardor 42),Daromad
+2026-02-10,500000.0,O'quv kursi to'lovi (Sardor 86),Daromad
+2026-02-10,500000.0,O'quv kursi to'lovi (Sardor 9),Daromad
+2026-02-10,500000.0,O'quv kursi to'lovi (Sardor 90),Daromad
+2026-02-10,500000.0,O'quv kursi to'lovi (Sardor 22),Daromad
+2026-02-10,-8000000.0,O'qituvchi oyligi,Xarajat
+2026-02-10,-79041.0,"Ofis xarajatlari (Suv, qog'oz, marker)",Xarajat
+2026-02-12,-589270.0,Kompyuter ta'miri / Texnika,Xarajat
+2026-02-15,-440406.0,Elektr energiyasi,Kommunal
+2026-02-15,-86199.0,Suv (Water),Kommunal
+2026-02-15,-226656.0,Isitish (Gaz/Otoplenie),Kommunal
+2026-02-16,-105953.0,"Ofis xarajatlari (Suv, qog'oz, marker)",Xarajat
+2026-02-25,-102294.0,"Ofis xarajatlari (Suv, qog'oz, marker)",Xarajat
+2026-02-26,500000.0,O'quv kursi to'lovi (kechikkan),Daromad
+2026-03-01,500000.0,O'quv kursi to'lovi (Sardor 13),Daromad
+2026-03-01,500000.0,O'quv kursi to'lovi (Sardor 65),Daromad
+2026-03-01,500000.0,O'quv kursi to'lovi (Sardor 78),Daromad
+2026-03-01,500000.0,O'quv kursi to'lovi (Sardor 63),Daromad
+2026-03-01,-300000.0,Internet (Optika),Aloqa
