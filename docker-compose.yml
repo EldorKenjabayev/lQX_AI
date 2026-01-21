@@ -43,8 +43,8 @@ services:
     restart: always
     ports:
       # Tashqi dunyoga 80 portni ochamiz (yoki 8000 agar hostda band bo'lsa)
-      # User hostda boshqa loyihalar borligini aytgani uchun, 8001:80 qilsak xavfsizroq
-      - "8001:80"
+      # User hostda boshqa loyihalar borligini aytgani uchun, 8010:80 qilsak xavfsizroq (8001 band bo'lishi mumkin)
+      - "8010:80"
     volumes:
       - ./nginx:/etc/nginx/conf.d:ro
     depends_on:

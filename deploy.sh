@@ -27,4 +27,4 @@ $DOCKER_COMPOSE ps
 
 echo -e "${GREEN}Deployment yakunlandi!${NC}"
 echo -e "API manzil: http://lqx.centraliatours.com (Agar DNS va Port Forwarding to'g'ri bo'lsa)"
-echo -e "Mahalliy test: http://localhost:8001/docs"
+echo -e "Mahalliy test: http://localhost:8010/docs"
