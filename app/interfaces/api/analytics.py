@@ -1,12 +1,12 @@
 
-from fastapi import APIRouter, Depends, HTTPException, status
+from typing import List, Optional
+from fastapi import APIRouter, Depends, HTTPException, status, Query
 from sqlalchemy.orm import Session
-from typing import List
 
 from app.infrastructure.db.database import get_db
 from app.infrastructure.db.models import UserModel, TransactionModel
 from app.infrastructure.auth.security import get_current_user
-from app.interfaces.schemas.schemas import LiquidityAnalysisRequest, LiquidityAnalysisResponse, DashboardRequest, DashboardResponse
+from app.interfaces.schemas.schemas import LiquidityAnalysisRequest, LiquidityAnalysisResponse, DashboardResponse, FilterOptionsResponse
 from app.use_cases.liquidity_analysis import liquidity_analysis_use_case
 
 router = APIRouter(prefix="/analytics", tags=["Analytics"])
@@ -70,7 +70,42 @@ async def analyze_liquidity(
     return LiquidityAnalysisResponse(**result)
 
 
-@router.post(
+@router.get(
+    "/filters",
+    response_model=FilterOptionsResponse,
+    summary="Filtrlash opsiyalarini olish",
+    description="Frontenddagi filterlar (category dropdown, date range, amount range) uchun mavjud qiymatlarni qaytaradi."
+)
+async def get_filter_options(
+    current_user: UserModel = Depends(get_current_user),
+    db: Session = Depends(get_db)
+):
+    """
+    Filtrlash uchun mavjud opsiyalar endpointi.
+    """
+    from app.domain.services.analytics_service import analytics_service
+    
+    # Userning tranzaksiyalarini olish (optimallashtirish mumkin, lekin hozircha shu yetarli)
+    transactions_orm = db.query(TransactionModel).filter(TransactionModel.user_id == current_user.id).all()
+    
+    # ORM -> Dict conversion
+    transactions = []
+    for t in transactions_orm:
+        transactions.append({
+            "date": t.date.strftime('%Y-%m-%d'),
+            "amount": float(t.amount),
+            "description": t.description,
+            "category": t.category,
+            "is_expense": t.is_expense,
+            "is_fixed": t.is_fixed
+        })
+        
+    options = analytics_service.get_filter_options(transactions)
+    
+    return FilterOptionsResponse(**options)
+
+
+@router.get(
     "/dashboard", 
     response_model=DashboardResponse,
     summary="Dashboard ma'lumotlarini olish",
@@ -81,7 +116,12 @@ async def analyze_liquidity(
     }
 )
 async def get_dashboard(
-    request: DashboardRequest,
+    filter_type: str = Query("this_month", description="Filtr turi: last_7_days, this_month, last_month, this_year, custom"),
+    start_date: Optional[str] = Query(None, description="Boshlanish sanasi (YYYY-MM-DD)"),
+    end_date: Optional[str] = Query(None, description="Tugash sanasi (YYYY-MM-DD)"),
+    category: Optional[str] = Query(None, description="Kategoriya bo'yicha filtrlash"),
+    min_amount: Optional[float] = Query(None, description="Minimal summa"),
+    max_amount: Optional[float] = Query(None, description="Maksimal summa"),
     current_user: UserModel = Depends(get_current_user),
     db: Session = Depends(get_db)
 ):
@@ -107,9 +147,12 @@ async def get_dashboard(
         
     data = analytics_service.get_dashboard_data(
         transactions, 
-        request.filter_type, 
-        request.start_date, 
-        request.end_date
+        filter_type, 
+        start_date, 
+        end_date,
+        category=category,
+        min_amount=min_amount,
+        max_amount=max_amount
     )
     
     return DashboardResponse(

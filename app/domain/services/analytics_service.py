@@ -44,10 +44,20 @@ class AnalyticsService:
                 df = df[df['date'] >= pd.to_datetime(start_date)]
             if end_date:
                 df = df[df['date'] <= pd.to_datetime(end_date)]
+        
+        # Additional filters
+        if 'category' in kwargs and kwargs['category']:
+            df = df[df['category'] == kwargs['category']]
+            
+        if 'min_amount' in kwargs and kwargs['min_amount'] is not None:
+             df = df[df['amount'] >= float(kwargs['min_amount'])]
+             
+        if 'max_amount' in kwargs and kwargs['max_amount'] is not None:
+             df = df[df['amount'] <= float(kwargs['max_amount'])]
                 
         return df
 
-    def get_dashboard_data(self, transactions: List[Dict[str, Any]], filter_type: str, start_date: str = None, end_date: str = None) -> Dict[str, Any]:
+    def get_dashboard_data(self, transactions: List[Dict[str, Any]], filter_type: str, start_date: str = None, end_date: str = None, **kwargs) -> Dict[str, Any]:
         """
         Dashboard uchun tayyor ma'lumotlarni qaytaradi.
         """
@@ -55,17 +65,19 @@ class AnalyticsService:
         df_all = pd.DataFrame(transactions)
         
         # 1. Current Balance (Joriy Qoldiq - Barcha vaqtlar uchun)
+        # 1. Real Current Balance (Joriy Qoldiq - Barcha vaqtlar uchun, filtrlardan qat'iy nazar)
         current_balance = 0
         if not df_all.empty:
-            df_all['amount'] = pd.to_numeric(df_all['amount'])
-            df_all['date'] = pd.to_datetime(df_all['date'])
+            # Type casting agar kerak bo'lsa
+            # df_all['amount'] = pd.to_numeric(df_all['amount']) # bular allaqachon float bo'lishi kerak
             
+            # Real balansni hisoblash (barcha tranzaksiyalar)
             total_inc_all = df_all[df_all['is_expense'] == False]['amount'].sum()
             total_exp_all = df_all[df_all['is_expense'] == True]['amount'].sum()
             current_balance = total_inc_all - total_exp_all
         
         # Filterlash (df_all dan foydalanib)
-        df = self.filter_transactions(df_all, filter_type, start_date, end_date)
+        df = self.filter_transactions(df_all, filter_type, start_date, end_date, **kwargs)
         
         if df.empty:
              empty = self._empty_dashboard()
@@ -122,27 +134,65 @@ class AnalyticsService:
         else:
             pie_chart = {'labels': [], 'series': []}
 
-        # Chart 2: Income vs Expense Trend
+        # Chart 2: Income vs Expense Trend (List[ChartPoint]) - Full Date Range Logic
         resample_rule = 'D'
-        if filter_type in ['this_year', 'last_year']:
-            resample_rule = 'ME'
-        
-        income_trend = df[df['is_expense'] == False].set_index('date').resample(resample_rule)['amount'].sum()
-        expense_trend = df[df['is_expense'] == True].set_index('date').resample(resample_rule)['amount'].sum()
-        
-        trend_df = pd.DataFrame({'income': income_trend, 'expense': expense_trend}).fillna(0)
-        
         date_format = '%Y-%m-%d'
-        if resample_rule == 'ME':
+        
+        # Sana oraliqlarini aniqlash (to'liq chart chizish uchun)
+        now = datetime.now()
+        chart_start_date = now - timedelta(days=30) # Default
+        chart_end_date = now
+
+        if filter_type == 'last_7_days':
+            chart_end_date = now
+            chart_start_date = now - timedelta(days=6) # 7 kun (bugun bilan)
+        elif filter_type == 'this_month':
+            chart_end_date = now
+            chart_start_date = now.replace(day=1)
+        elif filter_type == 'last_month':
+            first_this = now.replace(day=1)
+            chart_end_date = first_this - timedelta(days=1)
+            chart_start_date = chart_end_date.replace(day=1)
+        elif filter_type == 'custom' and start_date and end_date:
+            chart_start_date = pd.to_datetime(start_date)
+            chart_end_date = pd.to_datetime(end_date)
+        elif filter_type in ['this_year']:
+            resample_rule = 'ME'
             date_format = '%Y-%m'
-            
-        trend_chart = {
-            'categories': trend_df.index.strftime(date_format).tolist(),
-            'series': [
-                {'name': 'Income', 'data': trend_df['income'].tolist()},
-                {'name': 'Expense', 'data': trend_df['expense'].tolist()}
-            ]
-        }
+            chart_start_date = now.replace(month=1, day=1)
+            chart_end_date = now
+
+        # Full date range yaratish
+        full_idx = pd.date_range(start=chart_start_date, end=chart_end_date, freq=resample_rule)
+        
+        # Resample and fill missing dates with 0 via reindex
+        # 1. Group by date and sum
+        if not df.empty:
+             # Ensure date is datetime
+             df['date'] = pd.to_datetime(df['date'])
+             
+             income_grouped = df[df['is_expense'] == False].set_index('date').resample(resample_rule)['amount'].sum()
+             expense_grouped = df[df['is_expense'] == True].set_index('date').resample(resample_rule)['amount'].sum()
+             
+             # 2. Reindex with full range
+             income_trend = income_grouped.reindex(full_idx, fill_value=0)
+             expense_trend = expense_grouped.reindex(full_idx, fill_value=0)
+        else:
+             # Agar df bo'sh bo'lsa, hammasi 0 bo'lgan series yaratamiz
+             income_trend = pd.Series(0, index=full_idx)
+             expense_trend = pd.Series(0, index=full_idx)
+        
+        trend_df = pd.DataFrame({'income': income_trend, 'expense': expense_trend})
+        trend_df['net_change'] = trend_df['income'] - trend_df['expense']
+        
+        chart_points = []
+        for date, row in trend_df.iterrows():
+            chart_points.append({
+                "date": date.strftime(date_format),
+                "income": float(row['income']),
+                "expense": float(row['expense']),
+                "net_change": float(row['net_change'])
+            })
 
         # Details helpers
         def get_category_details(sub_df, total):
@@ -172,13 +222,10 @@ class AnalyticsService:
                 "total_income": float(total_income),
                 "total_expense": float(total_expense),
                 "net_profit": float(net_profit),
-                "avg_income": float(avg_income),
-                "avg_expense": float(avg_expense)
+                "savings_rate": round(((total_income - total_expense) / total_income * 100), 1) if total_income > 0 else 0.0,
+                # "avg_income": float(avg_income), # Schema da yo'q, agar kerak bo'lsa qo'shish kerak
             },
-            "charts": {
-                "pie_chart": pie_chart,
-                "trend_chart": trend_chart
-            },
+            "charts": chart_points,
             "details": {
                 "income_by_category": income_details,
                 "expense_by_category": expense_details
@@ -191,17 +238,50 @@ class AnalyticsService:
             "growth_percentage": 0.0,
             "top_expenses": [],
             "summary": {
-                "total_income": 0, "total_expense": 0, "net_profit": 0,
-                "avg_income": 0, "avg_expense": 0
+                "total_income": 0, "total_expense": 0, "net_profit": 0, "savings_rate": 0
             },
-            "charts": {
-                "pie_chart": {'labels': [], 'series': []},
-                "trend_chart": {'categories': [], 'series': []}
-            },
+            "charts": [],
             "details": {
                 "income_by_category": [],
                 "expense_by_category": []
             }
+        }
+
+    def get_filter_options(self, transactions: List[Dict[str, Any]]) -> Dict[str, Any]:
+        """
+        Tranzaksiyalardan filtrlash uchun kerakli ma'lumotlarni yig'adi.
+        """
+        df = pd.DataFrame(transactions)
+        
+        if df.empty:
+            return {
+                "categories": [],
+                "min_date": None,
+                "max_date": None,
+                "min_amount": 0.0,
+                "max_amount": 0.0
+            }
+            
+        # Kategoriyalar (faqat string bo'lganlarini va bo'sh bo'lmaganlarini olish)
+        categories = df['category'].dropna().unique().tolist()
+        categories.sort()
+        
+        # Sanalar check
+        df['date'] = pd.to_datetime(df['date'])
+        min_date = df['date'].min().strftime('%Y-%m-%d')
+        max_date = df['date'].max().strftime('%Y-%m-%d')
+        
+        # Summalar
+        df['amount'] = pd.to_numeric(df['amount'])
+        min_amount = float(df['amount'].min())
+        max_amount = float(df['amount'].max())
+        
+        return {
+            "categories": categories,
+            "min_date": min_date,
+            "max_date": max_date,
+            "min_amount": min_amount,
+            "max_amount": max_amount
         }
 
 analytics_service = AnalyticsService()

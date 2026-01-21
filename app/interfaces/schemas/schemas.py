@@ -224,19 +224,57 @@ class DashboardRequest(BaseModel):
     filter_type: str = Field(..., description="Filtr turi: last_7_days, this_month, last_month, this_year, custom")
     start_date: Optional[str] = Field(None, description="Boshlanish sanasi (YYYY-MM-DD)")
     end_date: Optional[str] = Field(None, description="Tugash sanasi (YYYY-MM-DD)")
+    category: Optional[str] = Field(None, description="Kategoriya bo'yicha filtrlash")
+    min_amount: Optional[float] = Field(None, description="Minimal summa")
+    max_amount: Optional[float] = Field(None, description="Maksimal summa")
 
     class Config:
         json_schema_extra = {
             "example": {
-                "filter_type": "last_7_days"
+                "filter_type": "last_7_days",
+                "category": "Oziq-ovqat"
             }
         }
+
+
+
+class TopExpense(BaseModel):
+    """Eng katta xarajatlar."""
+    category: str
+    amount: float
+    percentage: float
+
+
+class ChartPoint(BaseModel):
+    """Grafik uchun ma'lumot nuqtasi."""
+    date: str
+    income: float
+    expense: float
+    net_change: float
+
+
+class DashboardSummary(BaseModel):
+    """Dashboard umumiy ko'rsatkichlari."""
+    total_income: float
+    total_expense: float
+    net_profit: float = Field(0.0, description="Sof foyda (Kirim - Chiqim)")
+    savings_rate: float = Field(0.0, description="Tejab qolish foizi")
+
+
+class DashboardData(BaseModel):
+    """Dashboard asosiy ma'lumotlari."""
+    current_balance: float = Field(..., description="Joriy balans")
+    growth_percentage: float = Field(..., description="O'sish foizi")
+    top_expenses: List[TopExpense] = Field(default=[], description="Eng katta xarajatlar ro'yxati")
+    summary: DashboardSummary = Field(..., description="Kirim va chiqimlar yig'indisi")
+    charts: List[ChartPoint] = Field(default=[], description="Grafiklar uchun vaqt bo'yicha ma'lumotlar")
+    details: Dict[str, Any] = Field(default={}, description="Qo'shimcha detallar")
 
 
 class DashboardResponse(BaseModel):
     """Dashboard javobi."""
     success: bool
-    data: Dict[str, Any]
+    data: DashboardData
 
     class Config:
         json_schema_extra = {
@@ -259,3 +297,11 @@ class DashboardResponse(BaseModel):
             }
         }
 
+
+class FilterOptionsResponse(BaseModel):
+    """Filtrlash uchun mavjud opsiyalar."""
+    categories: List[str]
+    min_date: Optional[str]
+    max_date: Optional[str]
+    min_amount: float
+    max_amount: float
