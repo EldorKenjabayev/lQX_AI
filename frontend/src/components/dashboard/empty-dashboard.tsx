@@ -31,7 +31,7 @@ export function EmptyDashboard() {
                 transition={{ delay: 0.2 }}
                 className="text-3xl font-bold text-white mb-4"
             >
-                LQX AI ga Xush Kelibsiz! 🚀
+                LQX AI ga Xush Kelibsiz! 
             </motion.h2>
 
             <motion.p

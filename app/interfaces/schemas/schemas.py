@@ -104,6 +104,23 @@ class TransactionCreate(BaseModel):
         }
 
 
+class TransactionUpdateRequest(BaseModel):
+    """Tranzaksiyani yangilash (qisman)."""
+    date: Optional[str] = None
+    amount: Optional[float] = None
+    description: Optional[str] = None
+    category: Optional[str] = None
+    is_expense: Optional[bool] = None
+    is_fixed: Optional[bool] = None
+
+    class Config:
+        json_schema_extra = {
+            "example": {
+                "amount": 200000,
+                "category": "Marketing"
+            }
+        }
+
 class TransactionResponse(BaseModel):
     """Tranzaksiya javobi."""
     id: UUID

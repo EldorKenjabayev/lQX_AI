@@ -9,11 +9,11 @@ from app.infrastructure.llm.local_llm_client import llm_client
 class UploadDataUseCase:
     """Ma'lumot yuklash va parse qilish use case."""
     
-    async def parse_text(self, text: str) -> List[Dict[str, Any]]:
+    async def parse_text(self, text: str, business_type: Optional[str] = None) -> List[Dict[str, Any]]:
         """
         Oddiy matnni tranzaksiyalarga parse qilish.
         """
-        transactions = await llm_client.parse_text_to_transactions(text)
+        transactions = await llm_client.parse_text_to_transactions(text, business_type)
         return transactions
     
     async def parse_file(self, file: UploadFile) -> Dict[str, Any]:

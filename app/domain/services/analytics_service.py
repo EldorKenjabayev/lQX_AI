@@ -13,7 +13,8 @@ class AnalyticsService:
         df: pd.DataFrame, 
         filter_type: str, 
         start_date: str = None, 
-        end_date: str = None
+        end_date: str = None,
+        **kwargs
     ) -> pd.DataFrame:
         """
         Tranzaksiyalarni vaqt bo'yicha filtrlash.
@@ -63,6 +64,10 @@ class AnalyticsService:
         """
         # DataFrame yaratish
         df_all = pd.DataFrame(transactions)
+        
+        # Ensure date column is datetime objects for comparison
+        if not df_all.empty and 'date' in df_all.columns:
+            df_all['date'] = pd.to_datetime(df_all['date'])
         
         # 1. Current Balance (Joriy Qoldiq - Barcha vaqtlar uchun)
         # 1. Real Current Balance (Joriy Qoldiq - Barcha vaqtlar uchun, filtrlardan qat'iy nazar)
@@ -144,23 +149,31 @@ class AnalyticsService:
         chart_end_date = now
 
         if filter_type == 'last_7_days':
-            chart_end_date = now
-            chart_start_date = now - timedelta(days=6) # 7 kun (bugun bilan)
+            chart_end_date = now.replace(hour=23, minute=59, second=59, microsecond=999999)
+            chart_start_date = (now - timedelta(days=6)).replace(hour=0, minute=0, second=0, microsecond=0)
         elif filter_type == 'this_month':
-            chart_end_date = now
-            chart_start_date = now.replace(day=1)
+            # Oyning boshi va oxiri
+            chart_start_date = now.replace(day=1, hour=0, minute=0, second=0, microsecond=0)
+            # Find last day of month
+            next_month = now.replace(day=28) + timedelta(days=4)
+            chart_end_date = (next_month - timedelta(days=next_month.day)).replace(hour=23, minute=59, second=59, microsecond=999999)
+            
         elif filter_type == 'last_month':
             first_this = now.replace(day=1)
-            chart_end_date = first_this - timedelta(days=1)
-            chart_start_date = chart_end_date.replace(day=1)
+            chart_end_date = (first_this - timedelta(days=1)).replace(hour=23, minute=59, second=59, microsecond=999999)
+            chart_start_date = chart_end_date.replace(day=1, hour=0, minute=0, second=0, microsecond=0)
         elif filter_type == 'custom' and start_date and end_date:
-            chart_start_date = pd.to_datetime(start_date)
-            chart_end_date = pd.to_datetime(end_date)
-        elif filter_type in ['this_year']:
-            resample_rule = 'ME'
-            date_format = '%Y-%m'
-            chart_start_date = now.replace(month=1, day=1)
-            chart_end_date = now
+            chart_start_date = pd.to_datetime(start_date).replace(hour=0, minute=0, second=0, microsecond=0)
+            chart_end_date = pd.to_datetime(end_date).replace(hour=23, minute=59, second=59, microsecond=999999)
+
+        # Fix for 'this_year' specifically
+        if filter_type == 'this_year':
+             resample_rule = 'ME' # Reduce to 12 points as user requested "not squeezed"
+             date_format = '%b'   # Show Month Name (Jan, Feb...)
+             chart_start_date = now.replace(month=1, day=1, hour=0, minute=0, second=0, microsecond=0)
+             chart_end_date = now.replace(month=12, day=31, hour=23, minute=59, second=59, microsecond=999999)
+        
+        # Override specifically to fix the bug (redundant block removed, merged above)
 
         # Full date range yaratish
         full_idx = pd.date_range(start=chart_start_date, end=chart_end_date, freq=resample_rule)
@@ -168,13 +181,22 @@ class AnalyticsService:
         # Resample and fill missing dates with 0 via reindex
         # 1. Group by date and sum
         if not df.empty:
-             # Ensure date is datetime
-             df['date'] = pd.to_datetime(df['date'])
+             # Create a dedicated chart dataframe to avoid SettingWithCopyWarning
+             chart_df = df.copy()
+             chart_df['date'] = pd.to_datetime(chart_df['date'])
              
-             income_grouped = df[df['is_expense'] == False].set_index('date').resample(resample_rule)['amount'].sum()
-             expense_grouped = df[df['is_expense'] == True].set_index('date').resample(resample_rule)['amount'].sum()
+             # Normalize chart_df dates to remove any potential time part (crucial!)
+             # For Monthly resampling, normalize is good but resample('ME') handles days automatically.
+             # However, let's keep it clean.
+             chart_df['date'] = chart_df['date'].dt.normalize()
+
+             income_grouped = chart_df[chart_df['is_expense'] == False].set_index('date').resample(resample_rule)['amount'].sum()
+             expense_grouped = chart_df[chart_df['is_expense'] == True].set_index('date').resample(resample_rule)['amount'].sum()
              
              # 2. Reindex with full range
+             # Normalize full_idx just in case? pd.date_range with start/end normalized should be creating normalized range if freq=D.
+             # But our fix above ensures start/end are normalized.
+             
              income_trend = income_grouped.reindex(full_idx, fill_value=0)
              expense_trend = expense_grouped.reindex(full_idx, fill_value=0)
         else:
@@ -213,6 +235,14 @@ class AnalyticsService:
 
         # 3. Top Expenses (Top 3)
         top_expenses = expense_details[:3]
+        
+        # Calculate daily averages (non-zero days only or total period?)
+        # User wants "Linear AVG". total / period_length seems appropriate for visual reference.
+        # Or better: average of non-zero days? Usually financial planning uses total / days.
+        # Let's use simple average over the period.
+        period_days = (chart_end_date - chart_start_date).days + 1
+        avg_daily_income = total_income / period_days if period_days > 0 else 0
+        avg_daily_expense = total_expense / period_days if period_days > 0 else 0
 
         return {
             "current_balance": float(current_balance),
@@ -223,12 +253,15 @@ class AnalyticsService:
                 "total_expense": float(total_expense),
                 "net_profit": float(net_profit),
                 "savings_rate": round(((total_income - total_expense) / total_income * 100), 1) if total_income > 0 else 0.0,
-                # "avg_income": float(avg_income), # Schema da yo'q, agar kerak bo'lsa qo'shish kerak
             },
             "charts": chart_points,
             "details": {
                 "income_by_category": income_details,
-                "expense_by_category": expense_details
+                "expense_by_category": expense_details,
+                "avg_stats": {
+                    "daily_income": float(avg_daily_income),
+                    "daily_expense": float(avg_daily_expense)
+                }
             }
         }
 

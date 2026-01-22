@@ -6,6 +6,7 @@ OpenAI GPT modellari bilan ishlash (Local LLM o'rniga).
 
 from openai import AsyncOpenAI
 from typing import Optional, Dict, Any, List
+from datetime import datetime, timedelta
 from app.infrastructure.db.database import settings
 
 
@@ -14,14 +15,26 @@ class OpenAIClient:
     
     def __init__(self):
         self.api_key = settings.openai_api_key
-        # Agar API kalit bo'lmasa, client ishlamaydi (yoki xato beradi)
-        if self.api_key:
-            self.client = AsyncOpenAI(api_key=self.api_key)
-        else:
-            self.client = None
-            print("OGOHLANTIRISH: OPENAI_API_KEY topilmadi!")
+        
+        # Ollama Configuration
+        self.use_local = False
+        import os
+        ollama_host = os.getenv("OLLAMA_HOST", "http://localhost:11434")
+        ollama_model = os.getenv("OLLAMA_MODEL", "qwen2.5:3b")
 
-        self.model = "gpt-4-turbo-preview" # Yoki 'gpt-3.5-turbo'
+        if self.api_key and "sk-" in self.api_key:
+             # Use OpenAI
+             self.client = AsyncOpenAI(api_key=self.api_key)
+             self.model = "gpt-4-turbo-preview"
+        else:
+             # Fallback to Ollama (Local LLM)
+             print(f"INFO: OpenAI key topilmadi. Ollama ({ollama_host}) ishlatilmoqda.")
+             self.use_local = True
+             self.client = AsyncOpenAI(
+                 base_url=f"{ollama_host}/v1",
+                 api_key="ollama" # required but ignored
+             )
+             self.model = ollama_model
     
     async def generate(
         self,
@@ -33,8 +46,7 @@ class OpenAIClient:
         """
         GPT'dan javob olish.
         """
-        if not self.client:
-            return "OpenAI API kaliti sozlanmagan."
+
 
         messages = []
         if system_prompt:
@@ -54,34 +66,102 @@ class OpenAIClient:
             print(f"OpenAI xatosi: {str(e)}")
             return ""
     
-    async def parse_text_to_transactions(self, text: str) -> list[Dict[str, Any]]:
+    async def parse_text_to_transactions(self, text: str, business_type: Optional[str] = None) -> list[Dict[str, Any]]:
         """
         Oddiy matnni tranzaksiyalarga aylantirish (GPT orqali).
+        business_type: 'savdo', 'oquv_markazi', 'ishlab_chiqarish'
         """
-        system_prompt = """Sen moliyaviy ma'lumotlarni tahlil qiluvchi AI assistantsan.
-Foydalanuvchi oddiy matn ko'rinishida moliyaviy operatsiyalarni kiritadi.
-Sen ularni quyidagi JSON formatga aylantiring kerak:
+        
+        # Biznes turiga qarab maxsus prompt va mantiqiy zanjir (CoT)
+        biz_context = "Umumiy moliya"
+        biz_rules = ""
+        
+        if business_type == "oquv_markazi":
+            biz_context = "O'quv Markazi (Ta'lim)"
+            biz_rules = """
+- KONTEKSTNI TAHLIL QIL:
+  - Agar "bola", "o'quvchi", "guruh" so'zlari qatnashsa va pul kirimi bo'lsa -> "O'quv kursi to'lovi" (Daromad).
+  - Agar "o'qituvchi", "domla", "usta" so'zlari qatnashsa va pul chiqimi bo'lsa -> "O'qituvchi maoshi" (Xarajat).
+  - "Parta", "Doska", "Proyektor", "Kompyuter" -> "Jihozlar" (Xarajat).
+  - "Reklama", "Target", "Flayer", "SMM" -> "Marketing" (Xarajat).
+  - "Arenda", "Joy puli" -> "Ijara" (Xarajat, Doimiy).
+  - "Svet", "Gaz", "Suv", "Internet" -> "Kommunal" (Xarajat).
+  - "Soliq", "Patent" -> "Soliqlar" (Xarajat).
+  - Muhim: "Xarajat" yoki "Chiqim" deb umumiy nomlama! Aniq turini yoz.
+"""
+        elif business_type == "savdo":
+             biz_context = "Savdo va Do'kon (Retail)"
+             biz_rules = """
+- KONTEKSTNI TAHLIL QIL:
+  - "Savdo", "Kassa", "Terminal", "Naqd" (agar kirim bo'lsa) -> "Savdo tushumi" (Daromad).
+  - "Tovar", "Yuk", "Kargo", "Optom" -> "Tovar xaridi" (Xarajat).
+  - "Vozvrat", "Qaytdi" -> "Tovar qaytishi" (Xarajat).
+  - "Arenda", "Svet", "Soliq" -> "Operatsion xarajatlar" (Xarajat).
+  - "Inkassatsiya" -> "Inkassatsiya" (Xarajat transfer).
+  - Muhim: "Xarajat" deb yozma, masalan "Do'kon ijarasi", "Transport" deb aniq yoz.
+"""
+        elif business_type == "ishlab_chiqarish":
+             biz_context = "Ishlab Chiqarish (Zavod/Sex)"
+             biz_rules = """
+- KONTEKSTNI TAHLIL QIL:
+  - "Xom-ashyo", "Material", "Metal", "Mato", "Ip" -> "Xom-ashyo xaridi" (Xarajat).
+  - "Usta haq", "Ishchi puli", "Tikuvchi" -> "Ish haqi" (Xarajat).
+  - "Sotildi", "Partiya ketdi", "Mijoz to'ladi" -> "Mahsulot sotuvi" (Daromad).
+  - "Dastgoh", "Zapchast", "Remont" -> "Uskuna va Ta'mirlash" (Xarajat).
+  - "Svet (Sex)", "Gaz (Sex)" -> "Kommunal (Ishlab chiqarish)" (Xarajat).
+  - "Transport", "Yo'l kira" -> "Logistika" (Xarajat).
+  - Muhim: "Ishlab chiqarish xarajati" deb umumiy yozma. Aniq "Xom-ashyo" yoki "Ish haqi" deb ajrat.
+"""
 
+        today = datetime.now()
+        today_str = today.strftime('%Y-%m-%d')
+        yesterday_str = (today - timedelta(days=1)).strftime('%Y-%m-%d')
+
+        system_prompt = f"""Sen Professional Moliyaviy Tahlilchi AI assistantsan.
+Sening vazifang: Berilgan matnni chuqur tahlil qilib, moliyaviy tranzaksiyalarni aniqlash va strukturalash.
+
+MUHIM: Barcha javoblar FAQAT O'ZBEK TILIDA bo'lishi shart. Ingliz tilida yozma!
+
+BIZNES TURI: {biz_context}
+
+TIzimli fikrlash (Chain of Thought):
+1. Har bir qatorni "iflos" (raw) ma'lumot deb qabul qil va uning tunder ma'nosini top.
+2. VAQTNI ANIQLASH:
+   - "Bugungi sana" (Reference): {today_str}
+   - Agar matnda "Bugun" so'zi bo'lsa -> {today_str}
+   - Agar "Kecha" so'zi bo'lsa -> {yesterday_str}
+   - Agar sana umuman yozilmagan bo'lsa -> {today_str} (Default)
+   - Agar aniq sana bor bo'lsa (01.03.2026) -> O'sha sanani ol (YYYY-MM-DD formatga o'gir).
+3. ENG MUHIM SAVOL: "Bu operatsiya natijasida kassaga pul KIRYAPTIMI yoki pul CHIQIB KETYAPTIMI?"
+   - Pul Kirishi (Daromad, is_expense=false):
+     - Kalit so'zlar: "To'lov" (o'quvchi to'lagan), "Tushum", "Savdo", "Kirim", "Sotildi".
+     - Mantiq: Agar Sardor o'quv kursi uchun pul to'lagan bo'lsa, bu bizga daromad. Summa oldida minus bo'lmasa ham.
+   - Pul Chiqishi (Xarajat, is_expense=true):
+     - Kalit so'zlar: "Xarajat", "Oylik", "Maosh", "Arenda", "Kommunal", "Berdi", "Sotib oldi".
+     - Belgilar: Summa oldida minus (-) turgan bo'lsa.
+4. Kategoriya: Biznes turiga ({biz_context}) mos keladigan eng qisqa va aniq nomni tanla.
+
+{biz_rules}
+
+UMUMIY QOIDALAR:
+- Sana formati: YYYY-MM-DD.
+- Summa: Har doim musbat son qaytar (absolyut qiymat). Masalan, matnda "-300000" bo'lsa, amount: 300000 deb, is_expense: true deb belgilash kerak.
+- is_expense: Yuqoridagi mantiqqa asoslanib to'g'ri belgilash. Kod aralashmaydi, SEN MAS'ULSAN.
+
+JAVOB FORMATI (Strict JSON array):
 [
-  {
+  {{
     "date": "YYYY-MM-DD",
     "amount": 1000000,
-    "description": "tavsif",
-    "category": "kategoriya",
+    "description": "original matn",
+    "category": "Kategoriya nomi",
     "is_expense": true/false,
     "is_fixed": true/false
-  }
+  }}
 ]
-
-- Agar sana ko'rsatilmagan bo'lsa, joriy oyni ishlat.
-- Xarajat uchun is_expense=true, daromad uchun false.
-- Doimiy xarajatlar (ijara, maosh) uchun is_fixed=true.
-- Faqat JSON formatida javob ber, boshqa matn qo'shma.
-- KATEGORIYA nomlari faqat O'ZBEK tilida bo'lsin (Masalan: "Food" -> "Oziq-ovqat", "Salary" -> "Maosh", "Rent" -> "Ijara").
+Faqat JSON qaytar.
 """
-        from datetime import datetime
-        today_str = datetime.now().strftime('%Y-%m-%d')
-        prompt = f"Bugungi sana: {today_str}. Quyidagi matnni tahlil qilib, JSON formatda tranzaksiyalar ro'yxatini ber:\n\n{text}"
+        prompt = f"Matn: \"{text}\"\n\nYuqoridagi matndan tranzaksiyalarni ajratib ol."
         
         response = await self.generate(prompt, system_prompt=system_prompt, temperature=0.3)
         
@@ -89,24 +169,64 @@ Sen ularni quyidagi JSON formatga aylantiring kerak:
         try:
             import json
             cleaned = response.strip()
-            if cleaned.startswith("```json"):
-                cleaned = cleaned[7:]
-            if cleaned.endswith("```"):
-                cleaned = cleaned[:-3]
+            # Markdown code blocklarni tozalash
+            if "```json" in cleaned:
+                cleaned = cleaned.split("```json")[1]
+            if "```" in cleaned:
+                cleaned = cleaned.split("```")[0]
+            
             cleaned = cleaned.strip()
             
+            # Basic validation: starts with [ and ends with ]
+            if not (cleaned.startswith("[") and cleaned.endswith("]")):
+                 # Agar to'liq array bo'lmasa, log qilib xato qaytarish
+                 print(f"LLM Raw Response (Invalid JSON): {cleaned}")
+                 raise ValueError("AI JSON formatini noto'g'ri qaytardi (uzilib qoldi).")
+
             transactions = json.loads(cleaned)
             if not isinstance(transactions, list):
-                # Agar list bo'lmasa, demak format noto'g'ri
                  raise ValueError("LLM javobi kutilgan formatda emas (list).")
                  
             if not transactions:
-                 # Agar bo'sh list bo'lsa
                  raise ValueError("Matnda moliyaviy tranzaksiyalar topilmadi.")
 
+            # --- Post-Processing & Validation (STRICT OVERRIDE) ---
+            for t in transactions:
+                # 1. Ensure amount is valid positive float
+                if 'amount' in t:
+                    try:
+                         t['amount'] = abs(float(t['amount']))
+                    except:
+                         t['amount'] = 0.0
+                
+                # 2. STRICT BUSINESS LOGIC OVERRIDE
+                # AI ba'zan adashadi, shuning uchun kod orqali "qattiq" tuzatamiz.
+                
+                desc_lower = t.get('description', '').lower()
+                cat_lower = t.get('category', '').lower()
+                
+                # O'quv Markazi uchun
+                if business_type == "oquv_markazi":
+                    # Agar "kurs" yoki "to'lov" bo'lsa va bu o'qituvchiga maosh bo'lmasa -> DAROMAD
+                    if ("kurs" in desc_lower or "to'lov" in desc_lower) and "maosh" not in desc_lower and "o'qituvchi" not in desc_lower:
+                        t['is_expense'] = False # Majburiy Daromad
+                        # Kategoriyani to'g'rilash (ixtiyoriy)
+                        if "xarajat" in cat_lower: 
+                            t['category'] = "O'quv kursi to'lovi"
+
+                # Umumiy qoidalar
+                if "daromad" in cat_lower or "kirim" in cat_lower or "tushum" in cat_lower:
+                    t['is_expense'] = False
+                
+                if "xarajat" in cat_lower or "chiqim" in cat_lower:
+                    t['is_expense'] = True
+            
             return transactions
+        except json.JSONDecodeError as je:
+             print(f"JSON Decode Error: {je}")
+             print(f"Bad JSON: {cleaned}")
+             raise ValueError(f"AI javobini o'qib bo'lmadi (JSON Xatosi). Fayl juda murakkab yoki katta bo'lishi mumkin.")
         except Exception as e:
-            # Xatoni yuqoriga uzatish, shunda userga ko'rsata olamiz
             raise ValueError(f"Ma'lumotlarni tahlil qilib bo'lmadi: {str(e)}")
     
     async def generate_recommendation(
@@ -135,6 +255,8 @@ Sen ularni quyidagi JSON formatga aylantiring kerak:
         system_prompt = f"""Sen tajribali Inqiroz Menejeri (Risk Manager) va moliyaviy tahlilchisan.
 Sen O'zbekiston bozorini yaxshi tushunasan. Seni vazifang - biznes egasini kutilayotgan moliyaviy xavflardan erta ogohlantirish.
 Kontekst: {context}. {biz_type_str}.
+
+MUHIM: Barcha javoblar FAQAT O'ZBEK TILIDA bo'lishi shart. Ingliz tilida yozma!
 
 Qoidalar:
 1. Agar kassa uzilishi (cash gap) bo'lsa, zudlik bilan ANIQ ogohlantirish ber (sana va summa).
@@ -171,14 +293,22 @@ SHOSHILINCH TAVSIYA BER:
         Foydalanuvchi bilan interaktiv muloqot.
         Context data ichida: forecast, risk, anomalies, liquidity_check bo'lishi mumkin.
         """
-        system_prompt = """Sen LQX AI - biznes egalari uchun aqlli moliyaviy maslahatchisan.
-Sening vazifang - biznes egasiga sodda, londa va foydali maslahatlar berish.
+        system_prompt = """Sen LQX AI - biznes egalari uchun professional moliyaviy maslahatchisan.
+Sening yagona vazifang - biznes egasiga moliya, hisobotlar va biznes rivoji bo'yicha yordam berish.
 
-Qoidalar:
-1. Agar foydalanuvchi "Mashina olsam bo'ladimi?" yoki shunga o'xshash katta xarajat haqida so'rasa, berilgan 'liquidity_check' ma'lumotiga tayanib javob ber. O'zboshimchalik bilan "ha" yoki "yo'q" dema.
-2. Agar anomaliyalar bo'lsa, ularni ko'rsatib o't (masalan: "Elektr narxi oshib ketibdi").
-3. O'zbek tilida, samimiy va professional gapir.
-4. Javobing qisqa bo'lsin (maksimum 3-4 jumla), lekin mazmunli.
+MUHIM: Barcha javoblar FAQAT O'ZBEK TILIDA bo'lishi shart. Ingliz tilida yozma!
+
+QAT'IY QOIDALAR (GUARDRAILS):
+1.  MAVZU CHEGIRASI: Agar foydalanuvchi Biznes yoki Moliya mavzusiga aloqasi yo'q savol bersa (Masalan: "Ob-havo qanday?", "Sen kimsan?", "Latifa ayt", "Siyosat", "Sport"), quyidagicha javob ber:
+    "Uzr, men faqat Sizning biznesingiz va moliyaviy holatingiz bo'yicha yordam bera olaman."
+    Boshqa hech qanday ma'lumot bermang.
+2.  SHAXSIYLIK: O'zingni faqat "LQX Moliya Tizimi" deb tanishtir.
+3.  KONTEKST: Javob berishda har doim quyidagi ma'lumotlarga tayan (agar mavjud bo'lsa): Risk darajasi, Kassa uzilishi, Hisobotlar.
+
+JAVOB USLUBI:
+- O'zbek tilida.
+- Qisqa va lo'nda (maksimum 3-4 jumla).
+- Professional lekin samimiy.
 """
         
         # Kontekstni matnlashtirish
@@ -186,6 +316,20 @@ Qoidalar:
         
         if 'risk_level' in context_data:
             context_str += f"- Risk Darajasi: {context_data['risk_level']}\n"
+        
+        # Yangi: Bu oyning statistikasi
+        if 'this_month_stats' in context_data:
+            stats = context_data['this_month_stats']
+            context_str += f"\nBu Oyning Moliyaviy Holati:\n"
+            context_str += f"- Jami Daromad: {stats['total_income']:,.0f} so'm\n"
+            context_str += f"- Jami Xarajat: {stats['total_expense']:,.0f} so'm\n"
+            context_str += f"- Sof Foyda: {stats['net']:,.0f} so'm\n"
+        
+        # Yangi: Top Xarajatlar
+        if 'top_expenses' in context_data and context_data['top_expenses']:
+            context_str += f"\nEng Ko'p Xarajatlar (Bu Oy):\n"
+            for exp in context_data['top_expenses'][:3]:  # Faqat top 3
+                context_str += f"- {exp['category']}: {exp['amount']:,.0f} so'm ({exp['percentage']}%)\n"
             
         if 'liquidity_check' in context_data and context_data['liquidity_check']:
             check = context_data['liquidity_check']

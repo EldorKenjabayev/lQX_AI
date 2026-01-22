@@ -16,3 +16,10 @@ build/
 .vscode/
 .idea/
 .env*
+/frontend/lqx/node_modules
+/frontend/lqx/.next
+/frontend/lqx/coverage
+/frontend/lqx/next-env.d.ts
+/frontend/lqx/tsconfig.tsbuildinfo
+/frontend/lqx/next.config.js
+/frontend/lqx/.env

@@ -50,12 +50,45 @@ class ChatAdvisorUseCase:
             amount = expense_intent
             liquidity_check = forecasting_service.check_liquidity(forecast_df, amount)
             
-        # 3. LLM ga kontekst bilan murojaat qilish
+        
+        # 3. Analytics Ma'lumotlarini Tayyorlash
+        import pandas as pd
+        from datetime import datetime, timedelta
+        
+        # Bu oyning ma'lumotlari
+        now = datetime.now()
+        this_month_start = now.replace(day=1)
+        this_month_data = raw_df[pd.to_datetime(raw_df['date']) >= this_month_start]
+        
+        # Top Xarajatlar (Kategoriya bo'yicha)
+        expense_data = this_month_data[this_month_data['is_expense'] == True]
+        top_expenses = []
+        if not expense_data.empty:
+            category_totals = expense_data.groupby('category')['amount'].sum().sort_values(ascending=False)
+            for cat, amt in category_totals.head(5).items():
+                top_expenses.append({
+                    'category': cat,
+                    'amount': float(amt),
+                    'percentage': round((amt / category_totals.sum()) * 100, 1)
+                })
+        
+        # Umumiy Statistika
+        total_income_month = float(this_month_data[this_month_data['is_expense'] == False]['amount'].sum())
+        total_expense_month = float(this_month_data[this_month_data['is_expense'] == True]['amount'].sum())
+        
+        # 4. LLM ga kontekst bilan murojaat qilish
         context_data = {
             'risk_level': "HIGH" if cash_gaps else "LOW",
             'anomalies': anomalies,
             'cash_gaps': cash_gaps,
-            'liquidity_check': liquidity_check
+            'liquidity_check': liquidity_check,
+            # Yangi: Real Analytics
+            'this_month_stats': {
+                'total_income': total_income_month,
+                'total_expense': total_expense_month,
+                'net': total_income_month - total_expense_month
+            },
+            'top_expenses': top_expenses
         }
         
         llm_response = await llm_client.chat_with_advisor(message, context_data)
